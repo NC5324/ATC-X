@@ -1,0 +1,46 @@
+{
+    "manifest_version": 3,
+    "name": "ATC-X - Agile Tool Chain Extensions",
+    "version": "3.0",
+    "description": "Bridge the gaps across agile tools & services.",
+    "icons": {
+        "48": "assets/icon.png"
+    },
+    "permissions": [
+        "scripting",
+        "contextMenus",
+        "notifications",
+        "tabs"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "background": {
+        "service_worker": "src/service_worker.js",
+        "type": "module"
+    },
+    "action": {
+        "default_popup": "src/popup/popup.html"
+    },
+    "web_accessible_resources": [{
+        "matches": ["<all_urls>"],
+        "resources": [
+            "config.js",
+            "assets/*.svg",
+            "lib/*.js",
+            "src/*.js"
+        ]
+    }],
+    "content_scripts": [
+        {
+            "matches": [
+                "target-jira-url/secure/RapidBoard.jspa*",
+                "target-jira-url/browse*"
+            ],
+            "js": [
+                "src/content-scripts/jira/jira-bridge.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ]
+}
